@@ -4,8 +4,8 @@ import 'package:master_rad_flutter/screens/screens.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/image_container.dart';
 
-class HomeScreen extends StatelessWidget {
-  static const routeName = '/';
+class ProfileScreen extends StatelessWidget {
+  static const routeName = '/profile';
 
   @override
   Widget build(BuildContext context) {
@@ -15,5 +15,5 @@ class HomeScreen extends StatelessWidget {
         body: Container());
   }
 
-  const HomeScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 }

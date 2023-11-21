@@ -1,24 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:master_rad_flutter/screens/home_screen.dart';
+import 'package:master_rad_flutter/screens/profile_screen.dart';
+import 'package:master_rad_flutter/screens/screens.dart';
 
-class BottomNavBar extends BottomNavigationBar {
-  BottomNavBar({super.key, required super.items});
+class BottomNavBar extends StatelessWidget {
+  final int index;
 
-  BottomNavigationBar createBottomNavBar(
-      int currentIndex, List<BottomNavBarItem> items) {
-    return BottomNavigationBar(currentIndex: currentIndex, items: items);
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      currentIndex: index,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.grey,
+      backgroundColor: Colors.indigo.withAlpha(20),
+      items: [
+        BottomNavigationBarItem(
+            icon: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, HomeScreen.routeName);
+                }, icon: const Icon(Icons.home_filled)),
+            label: 'Home'),
+
+        BottomNavigationBarItem(
+            icon: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, SearchScreen.routeName);
+                }, icon: const Icon(Icons.search_sharp)),
+            label: 'Search'),
+
+        BottomNavigationBarItem(
+            icon: IconButton(onPressed: () {
+              Navigator.pushNamed(context, ProfileScreen.routeName);
+            }, icon: const Icon(Icons.person)),
+            label: 'Profile')
+      ],
+    );
   }
-}
 
-class BottomNavBarItem extends BottomNavigationBarItem {
-  BottomNavBarItem({required super.icon});
-
-  BottomNavigationBarItem createBottomNavBar(
-      IconData icon, String label, Function() onClick) {
-    return BottomNavigationBarItem(
-        icon: IconButton(
-          onPressed: onClick,
-          icon: Icon(icon),
-        ),
-        label: label);
-  }
+  const BottomNavBar({
+    Key? key,
+    required this.index
+  }) : super(key: key);
 }
