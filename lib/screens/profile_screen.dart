@@ -10,10 +10,22 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        bottomNavigationBar: const BottomNavBar(index: 0),
-        body: Container());
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      bottomNavigationBar: const BottomNavBar(index: 2),
+      body: ListView(padding: EdgeInsets.zero, children: [
+      ]),
+    );
   }
 
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 }
