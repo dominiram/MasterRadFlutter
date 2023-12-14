@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:master_rad_flutter/screens/home_screen.dart';
 import 'package:master_rad_flutter/screens/profile_screen.dart';
 import 'package:master_rad_flutter/screens/screens.dart';
 
@@ -20,27 +19,26 @@ class BottomNavBar extends StatelessWidget {
             icon: IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context, HomeScreen.routeName);
-                }, icon: const Icon(Icons.home_filled)),
+                },
+                icon: const Icon(Icons.home_filled)),
             label: 'Home'),
-
         BottomNavigationBarItem(
             icon: IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context, SearchScreen.routeName);
-                }, icon: const Icon(Icons.search_sharp)),
+                },
+                icon: const Icon(Icons.search_sharp)),
             label: 'Search'),
-
         BottomNavigationBarItem(
-            icon: IconButton(onPressed: () {
-              Navigator.pushNamed(context, ProfileScreen.routeName);
-            }, icon: const Icon(Icons.person)),
+            icon: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, ProfileScreen.routeName);
+                },
+                icon: const Icon(Icons.person)),
             label: 'Profile')
       ],
     );
   }
 
-  const BottomNavBar({
-    Key? key,
-    required this.index
-  }) : super(key: key);
+  const BottomNavBar({super.key, required this.index});
 }
