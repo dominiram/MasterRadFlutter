@@ -25,20 +25,22 @@ class ProfileScreen extends StatelessWidget {
       bottomNavigationBar: const BottomNavBar(index: 2),
       body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(24),
-            child: const Column(
-              children: [
-                SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: ClipRRect(
-                    child: Icon(Icons.account_circle_rounded),
-                  )
-                )
-              ],
-            ),
-          )
-      ),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            Container(
+              height: 120,
+              width: 120,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey,
+              ),
+              alignment: Alignment.center,
+              child: const Icon(Icons.account_circle, size: 120, color: Colors.white),
+            )
+          ],
+        ),
+      )),
     );
   }
 
