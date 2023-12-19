@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:master_rad_flutter/screens/profile_screen.dart';
 
 import 'screens/screens.dart';
 
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (context) => const HomeScreen(),
         SearchScreen.routeName: (context) => const SearchScreen(),
         ArticleScreen.routeName: (context) => const ArticleScreen(),
+        ProfileScreen.routeName: (context) => const ProfileScreen(),
       },
     );
   }
