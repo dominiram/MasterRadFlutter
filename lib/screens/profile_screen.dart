@@ -7,6 +7,7 @@ import 'package:device_preview/device_preview.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = '/profile';
+  static const profileImage = "assets/images/profile_image.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
                 color: Colors.grey,
               ),
               alignment: Alignment.center,
-              child: const Icon(Icons.account_circle, size: 120, color: Colors.white),
+              child: const Image(image: AssetImage(profileImage)),
             )
           ],
         ),
