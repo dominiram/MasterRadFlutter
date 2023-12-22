@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {},
           icon: const Icon(
             Icons.menu,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
       ),

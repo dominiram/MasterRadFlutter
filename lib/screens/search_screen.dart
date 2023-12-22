@@ -56,14 +56,14 @@ class _CategoryNews extends StatelessWidget {
           tabs: tabs
               .map(
                 (tab) => Tab(
-              icon: Text(
-                tab,
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  fontWeight: FontWeight.bold,
+                  icon: Text(
+                    tab,
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
                 ),
-              ),
-            ),
-          )
+              )
               .toList(),
         ),
         SizedBox(
@@ -72,75 +72,75 @@ class _CategoryNews extends StatelessWidget {
             children: tabs
                 .map(
                   (tab) => ListView.builder(
-                shrinkWrap: true,
-                itemCount: articles.length,
-                itemBuilder: ((context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        ArticleScreen.routeName,
-                        arguments: articles[index],
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        ImageContainer(
-                          width: 80,
-                          height: 80,
-                          margin: const EdgeInsets.all(10.0),
-                          borderRadius: 5,
-                          imageUrl: articles[index].imageUrl,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                articles[index].title,
-                                maxLines: 2,
-                                overflow: TextOverflow.clip,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
+                    shrinkWrap: true,
+                    itemCount: articles.length,
+                    itemBuilder: ((context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ArticleScreen.routeName,
+                            arguments: articles[index],
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            ImageContainer(
+                              width: 80,
+                              height: 80,
+                              margin: const EdgeInsets.all(10.0),
+                              borderRadius: 5,
+                              imageUrl: articles[index].imageUrl,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(
-                                    Icons.schedule,
-                                    size: 18,
-                                  ),
-                                  const SizedBox(width: 5),
                                   Text(
-                                    '${DateTime.now().difference(articles[index].createdAt).inHours} hours ago',
-                                    style: const TextStyle(fontSize: 12),
+                                    articles[index].title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.clip,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
-                                  const SizedBox(width: 20),
-                                  const Icon(
-                                    Icons.visibility,
-                                    size: 18,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    '${articles[index].views} views',
-                                    style: const TextStyle(fontSize: 12),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.schedule,
+                                        size: 18,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        '${DateTime.now().difference(articles[index].createdAt).inHours} hours ago',
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                      const SizedBox(width: 20),
+                                      const Icon(
+                                        Icons.visibility,
+                                        size: 18,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        '${articles[index].views} views',
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                }),
-              ),
-            )
+                      );
+                    }),
+                  ),
+                )
                 .toList(),
           ),
         )

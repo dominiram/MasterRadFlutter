@@ -19,29 +19,35 @@ class ProfileScreen extends StatelessWidget {
           onPressed: () {},
           icon: const Icon(
             Icons.menu,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
       ),
       bottomNavigationBar: const BottomNavBar(index: 2),
-      body: SingleChildScrollView(
-          child: Container(
+      body: Container(
+        margin: const EdgeInsets.only(left: 95),
+        height: 220,
+        width: 220,
         padding: const EdgeInsets.all(24),
-        child: Column(
+        child: Stack(
+          clipBehavior: Clip.none,
+          fit: StackFit.expand,
           children: [
-            Container(
-              height: 120,
-              width: 120,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.grey,
-              ),
-              alignment: Alignment.center,
-              child: const Image(image: AssetImage(profileImage)),
-            )
+            const CircleAvatar(backgroundImage: AssetImage(profileImage)),
+            Positioned(
+                bottom: -10,
+                right: -20,
+                child: RawMaterialButton(
+                  onPressed: () {},
+                  elevation: 2.0,
+                  fillColor: const Color(0xFFF5F6F9),
+                  padding: const EdgeInsets.all(15.0),
+                  shape: const CircleBorder(),
+                  child: const Icon(Icons.edit, color: Colors.black26),
+                ))
           ],
         ),
-      )),
+      ),
     );
   }
 
