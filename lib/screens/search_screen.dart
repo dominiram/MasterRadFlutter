@@ -47,7 +47,9 @@ class _CategoryNews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final articles = Article.articles;
+    List<Article> articles = <Article>[];
+    articles.addAll(Article.articles);
+    articles.addAll(Article.articles);
     return Column(
       children: [
         TabBar(
@@ -67,7 +69,7 @@ class _CategoryNews extends StatelessWidget {
               .toList(),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height,
+          height: 520,
           child: TabBarView(
             children: tabs
                 .map(
@@ -75,69 +77,7 @@ class _CategoryNews extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: articles.length,
                     itemBuilder: ((context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            ArticleScreen.routeName,
-                            arguments: articles[index],
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            ImageContainer(
-                              width: 80,
-                              height: 80,
-                              margin: const EdgeInsets.all(10.0),
-                              borderRadius: 5,
-                              imageUrl: articles[index].imageUrl,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    articles[index].title,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.clip,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.schedule,
-                                        size: 18,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        '${DateTime.now().difference(articles[index].createdAt).inHours} hours ago',
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                      const SizedBox(width: 20),
-                                      const Icon(
-                                        Icons.visibility,
-                                        size: 18,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        '${articles[index].views} views',
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                      return _ArticleItem(article: articles[index]);
                     }),
                   ),
                 )
@@ -154,47 +94,114 @@ class _DiscoverNews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.25,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Discover',
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium!
-                .copyWith(color: Colors.black, fontWeight: FontWeight.w900),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            'News from all over the world',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: 'Search',
-              fillColor: Colors.grey.shade200,
-              filled: true,
-              prefixIcon: const Icon(
-                Icons.search,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Discover',
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .copyWith(color: Colors.black, fontWeight: FontWeight.w900),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          'News from all over the world',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        const SizedBox(height: 20),
+        TextFormField(
+          decoration: InputDecoration(
+            hintText: 'Search',
+            fillColor: Colors.grey.shade200,
+            filled: true,
+            prefixIcon: const Icon(
+              Icons.search,
+              color: Colors.grey,
+            ),
+            suffixIcon: const RotatedBox(
+              quarterTurns: 1,
+              child: Icon(
+                Icons.tune,
                 color: Colors.grey,
               ),
-              suffixIcon: const RotatedBox(
-                quarterTurns: 1,
-                child: Icon(
-                  Icons.tune,
-                  color: Colors.grey,
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                borderSide: BorderSide.none,
-              ),
             ),
-          )
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              borderSide: BorderSide.none,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _ArticleItem extends StatelessWidget {
+  const _ArticleItem({required this.article});
+
+  final Article article;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          ArticleScreen.routeName,
+          arguments: article,
+        );
+      },
+      child: Row(
+        children: [
+          ImageContainer(
+            width: 80,
+            height: 80,
+            margin: const EdgeInsets.all(10.0),
+            borderRadius: 5,
+            imageUrl: article.imageUrl,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  article.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.clip,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.schedule,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      '${DateTime.now().difference(article.createdAt).inHours} hours ago',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    const SizedBox(width: 20),
+                    const Icon(
+                      Icons.visibility,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      '${article.views} views',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
