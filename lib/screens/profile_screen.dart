@@ -44,7 +44,8 @@ class ProfileScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(15.0),
                   shape: const CircleBorder(),
                   child: const Icon(Icons.edit, color: Colors.black26),
-                ))
+                )
+            )
           ],
         ),
       ),
