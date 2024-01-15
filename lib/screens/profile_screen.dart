@@ -2,9 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/bottom_nav_bar.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreenWidget extends StatefulWidget {
+  const ProfileScreenWidget({super.key});
+
+  @override
+  State<ProfileScreenWidget> createState() => ProfileScreen();
+}
+
+class ProfileScreen extends State<ProfileScreenWidget> {
+  static const prefsKeyName = "PREFS_KEY_NAME";
   static const routeName = '/profile';
   static const profileImage = "assets/images/profile_image.jpg";
+
+  String name = "Naum Djordjeviccc";
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    name = prefs.getString(prefsKeyName) ?? "Naum Djordjevic";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +58,10 @@ class ProfileScreen extends StatelessWidget {
                       bottom: -10,
                       right: -25,
                       child: RawMaterialButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setString(prefsKeyName, "${name}1");
+                        },
                         elevation: 2.0,
                         fillColor: const Color(0xFFF5F6F9),
                         padding: const EdgeInsets.all(15.0),
@@ -60,7 +84,7 @@ class ProfileScreen extends StatelessWidget {
             Container(
                 margin: const EdgeInsets.only(left: 10),
                 alignment: Alignment.centerLeft,
-                child: Text("Naum Djordjevic",
+                child: Text(name,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: Theme.of(context)
@@ -135,6 +159,4 @@ class ProfileScreen extends StatelessWidget {
           ])),
     );
   }
-
-  const ProfileScreen({super.key});
 }
