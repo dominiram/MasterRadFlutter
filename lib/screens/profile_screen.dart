@@ -10,6 +10,8 @@ class ProfileScreenWidget extends StatefulWidget {
 }
 
 class ProfileScreen extends State<ProfileScreenWidget> {
+  late TextEditingController nameTextController;
+
   static const prefsKeyName = "PREFS_KEY_NAME";
   static const routeName = '/profile';
   static const profileImage = "assets/images/profile_image.jpg";
@@ -19,7 +21,15 @@ class ProfileScreen extends State<ProfileScreenWidget> {
   @override
   void initState() {
     super.initState();
+    nameTextController = TextEditingController();
+    nameTextController.text = name;
     loadData();
+  }
+
+  @override
+  void dispose() {
+    nameTextController.dispose();
+    super.dispose();
   }
 
   loadData()async {
@@ -60,7 +70,8 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                       child: RawMaterialButton(
                         onPressed: () async {
                           SharedPreferences prefs = await SharedPreferences.getInstance();
-                          prefs.setString(prefsKeyName, "${name}1");
+                          nameTextController.text = "${nameTextController.text}1";
+                          prefs.setString(prefsKeyName, nameTextController.text);
                         },
                         elevation: 2.0,
                         fillColor: const Color(0xFFF5F6F9),
@@ -84,14 +95,17 @@ class ProfileScreen extends State<ProfileScreenWidget> {
             Container(
                 margin: const EdgeInsets.only(left: 10),
                 alignment: Alignment.centerLeft,
-                child: Text(name,
+                child: TextField(
+                    keyboardType: TextInputType.text,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
-                                ?.fontSize ??
-                            13))),
+                                ?.fontSize ?? 13
+                    ),
+                  controller: nameTextController,
+                )),
             const SizedBox(height: 20),
             Container(
                 alignment: Alignment.centerLeft,
