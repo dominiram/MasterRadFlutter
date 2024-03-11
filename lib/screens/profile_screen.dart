@@ -16,14 +16,14 @@ class ProfileScreen extends State<ProfileScreenWidget> {
   static const routeName = '/profile';
   static const profileImage = "assets/images/profile_image.jpg";
 
-  String name = "Naum Djordjeviccc";
+  late String name = "Naum";
 
   @override
   void initState() {
-    super.initState();
+    loadData();
     nameTextController = TextEditingController();
     nameTextController.text = name;
-    loadData();
+    super.initState();
   }
 
   @override
@@ -32,14 +32,19 @@ class ProfileScreen extends State<ProfileScreenWidget> {
     super.dispose();
   }
 
-  loadData()async {
+  loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = prefs.getString(prefsKeyName) ?? "Naum Djordjevic";
+
+    setState(() {
+      name = prefs.getString(prefsKeyName) ?? "Naum Djordjevic";
+      nameTextController.text = name;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -69,9 +74,12 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                       right: -25,
                       child: RawMaterialButton(
                         onPressed: () async {
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          nameTextController.text = "${nameTextController.text}1";
-                          prefs.setString(prefsKeyName, nameTextController.text);
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          setState(() {
+                            name = nameTextController.text;
+                            prefs.setString(prefsKeyName, name);
+                          });
                         },
                         elevation: 2.0,
                         fillColor: const Color(0xFFF5F6F9),
@@ -93,17 +101,15 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                             Theme.of(context).textTheme.bodyMedium?.fontSize ??
                                 10))),
             Container(
-                margin: const EdgeInsets.only(left: 10),
+                margin: const EdgeInsets.only(left: 10, right: 10),
                 alignment: Alignment.centerLeft,
                 child: TextField(
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.fontSize ?? 13
-                    ),
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize:
+                          Theme.of(context).textTheme.headlineSmall?.fontSize ??
+                              13),
                   controller: nameTextController,
                 )),
             const SizedBox(height: 20),
