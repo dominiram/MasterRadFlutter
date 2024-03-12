@@ -11,24 +11,45 @@ class ProfileScreenWidget extends StatefulWidget {
 
 class ProfileScreen extends State<ProfileScreenWidget> {
   late TextEditingController nameTextController;
+  late TextEditingController headlineTextController;
+  late TextEditingController emailTextController;
+  late TextEditingController phoneNumberTextController;
 
   static const prefsKeyName = "PREFS_KEY_NAME";
+  static const prefsKeyHeadline = "PREFS_KEY_HEADLINE";
+  static const prefsKeyEmail = "PREFS_KEY_EMAIL";
+  static const prefsKeyPhoneNumber = "PREFS_KEY_PHONE_NUMBER";
   static const routeName = '/profile';
   static const profileImage = "assets/images/profile_image.jpg";
 
   late String name = "Naum";
+  late String headline = "Software developer";
+  late String email = "abc@gmail.com";
+  late String phoneNumber = "060123456";
 
   @override
   void initState() {
     loadData();
     nameTextController = TextEditingController();
     nameTextController.text = name;
+
+    headlineTextController = TextEditingController();
+    headlineTextController.text = headline;
+
+    emailTextController = TextEditingController();
+    emailTextController.text = email;
+
+    phoneNumberTextController = TextEditingController();
+    phoneNumberTextController.text = phoneNumber;
     super.initState();
   }
 
   @override
   void dispose() {
     nameTextController.dispose();
+    headlineTextController.dispose();
+    emailTextController.dispose();
+    phoneNumberTextController.dispose();
     super.dispose();
   }
 
@@ -37,7 +58,14 @@ class ProfileScreen extends State<ProfileScreenWidget> {
 
     setState(() {
       name = prefs.getString(prefsKeyName) ?? "Naum Djordjevic";
+      headline = prefs.getString(prefsKeyHeadline) ?? "Software developer";
+      email = prefs.getString(prefsKeyEmail) ?? "abc@gmail.com";
+      phoneNumber = prefs.getString(prefsKeyPhoneNumber) ?? "060123456";
+
       nameTextController.text = name;
+      headlineTextController.text = headline;
+      emailTextController.text = email;
+      phoneNumberTextController.text = phoneNumber;
     });
   }
 
@@ -78,7 +106,14 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                               await SharedPreferences.getInstance();
                           setState(() {
                             name = nameTextController.text;
+                            headline = headlineTextController.text;
+                            email = emailTextController.text;
+                            phoneNumber = phoneNumberTextController.text;
+
                             prefs.setString(prefsKeyName, name);
+                            prefs.setString(prefsKeyHeadline, headline);
+                            prefs.setString(prefsKeyEmail, email);
+                            prefs.setString(prefsKeyPhoneNumber, phoneNumber);
                           });
                         },
                         elevation: 2.0,
@@ -123,16 +158,17 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                             Theme.of(context).textTheme.bodyMedium?.fontSize ??
                                 10))),
             Container(
-                margin: const EdgeInsets.only(left: 10),
+                margin: const EdgeInsets.only(left: 10, right: 10),
                 alignment: Alignment.centerLeft,
-                child: Text("Software engineer",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.fontSize ??
-                            13))),
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize:
+                      Theme.of(context).textTheme.headlineSmall?.fontSize ??
+                          13),
+                  controller: headlineTextController,
+                )),
             const SizedBox(height: 20),
             Container(
                 alignment: Alignment.centerLeft,
@@ -144,16 +180,17 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                             Theme.of(context).textTheme.bodyMedium?.fontSize ??
                                 10))),
             Container(
-                margin: const EdgeInsets.only(left: 10),
+                margin: const EdgeInsets.only(left: 10, right: 10),
                 alignment: Alignment.centerLeft,
-                child: Text("naumdj@yahoo.com",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.fontSize ??
-                            13))),
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize:
+                      Theme.of(context).textTheme.headlineSmall?.fontSize ??
+                          13),
+                  controller: emailTextController,
+                )),
             const SizedBox(height: 20),
             Container(
                 alignment: Alignment.centerLeft,
@@ -165,16 +202,17 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                             Theme.of(context).textTheme.bodyMedium?.fontSize ??
                                 10))),
             Container(
-                margin: const EdgeInsets.only(left: 10),
+                margin: const EdgeInsets.only(left: 10, right: 10),
                 alignment: Alignment.centerLeft,
-                child: Text("0601234567",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.fontSize ??
-                            13))),
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize:
+                      Theme.of(context).textTheme.headlineSmall?.fontSize ??
+                          13),
+                  controller: phoneNumberTextController,
+                )),
             const SizedBox(height: 20),
           ])),
     );
