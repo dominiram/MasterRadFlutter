@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/bottom_nav_bar.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreenWidget extends StatefulWidget {
   const ProfileScreenWidget({super.key});
@@ -19,13 +22,16 @@ class ProfileScreen extends State<ProfileScreenWidget> {
   static const prefsKeyHeadline = "PREFS_KEY_HEADLINE";
   static const prefsKeyEmail = "PREFS_KEY_EMAIL";
   static const prefsKeyPhoneNumber = "PREFS_KEY_PHONE_NUMBER";
+  static const prefsKeyProfileImagePath = "PREFS_KEY_PROFILE_IMAGE_PATH";
   static const routeName = '/profile';
   static const profileImage = "assets/images/profile_image.jpg";
+  File? imageFile;
 
   late String name = "Naum";
   late String headline = "Software developer";
   late String email = "abc@gmail.com";
   late String phoneNumber = "060123456";
+  late String? profileImagePath = null;
 
   @override
   void initState() {
@@ -41,6 +47,8 @@ class ProfileScreen extends State<ProfileScreenWidget> {
 
     phoneNumberTextController = TextEditingController();
     phoneNumberTextController.text = phoneNumber;
+
+    if (profileImagePath != null) imageFile = File(profileImagePath!);
     super.initState();
   }
 
@@ -61,11 +69,44 @@ class ProfileScreen extends State<ProfileScreenWidget> {
       headline = prefs.getString(prefsKeyHeadline) ?? "Software developer";
       email = prefs.getString(prefsKeyEmail) ?? "abc@gmail.com";
       phoneNumber = prefs.getString(prefsKeyPhoneNumber) ?? "060123456";
+      profileImagePath = prefs.getString(prefsKeyProfileImagePath) ?? null;
 
       nameTextController.text = name;
       headlineTextController.text = headline;
       emailTextController.text = email;
       phoneNumberTextController.text = phoneNumber;
+      if (profileImagePath != null) imageFile = File(profileImagePath!);
+    });
+  }
+
+  Future pickImageFromGallery() async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    profileImagePath = pickedImage!.path;
+
+    if (profileImagePath != null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString(prefsKeyProfileImagePath, profileImagePath!);
+    }
+
+    setState(() {
+      imageFile = File(profileImagePath!);
+    });
+  }
+
+  Future saveUserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = nameTextController.text;
+      headline = headlineTextController.text;
+      email = emailTextController.text;
+      phoneNumber = phoneNumberTextController.text;
+
+      prefs.setString(prefsKeyName, name);
+      prefs.setString(prefsKeyHeadline, headline);
+      prefs.setString(prefsKeyEmail, email);
+      prefs.setString(prefsKeyPhoneNumber, phoneNumber);
     });
   }
 
@@ -96,25 +137,22 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                 clipBehavior: Clip.none,
                 fit: StackFit.expand,
                 children: [
-                  const CircleAvatar(backgroundImage: AssetImage(profileImage)),
+                  imageFile != null
+                      ? ClipOval(
+                          child: Image.file(
+                          imageFile!,
+                          width: 160,
+                          height: 160,
+                          fit: BoxFit.cover,
+                        ))
+                      : const CircleAvatar(
+                          backgroundImage: AssetImage(profileImage)),
                   Positioned(
                       bottom: -10,
                       right: -25,
                       child: RawMaterialButton(
                         onPressed: () async {
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          setState(() {
-                            name = nameTextController.text;
-                            headline = headlineTextController.text;
-                            email = emailTextController.text;
-                            phoneNumber = phoneNumberTextController.text;
-
-                            prefs.setString(prefsKeyName, name);
-                            prefs.setString(prefsKeyHeadline, headline);
-                            prefs.setString(prefsKeyEmail, email);
-                            prefs.setString(prefsKeyPhoneNumber, phoneNumber);
-                          });
+                          pickImageFromGallery();
                         },
                         elevation: 2.0,
                         fillColor: const Color(0xFFF5F6F9),
@@ -165,8 +203,8 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                   style: TextStyle(
                       color: Colors.black,
                       fontSize:
-                      Theme.of(context).textTheme.headlineSmall?.fontSize ??
-                          13),
+                          Theme.of(context).textTheme.headlineSmall?.fontSize ??
+                              13),
                   controller: headlineTextController,
                 )),
             const SizedBox(height: 20),
@@ -187,8 +225,8 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                   style: TextStyle(
                       color: Colors.black,
                       fontSize:
-                      Theme.of(context).textTheme.headlineSmall?.fontSize ??
-                          13),
+                          Theme.of(context).textTheme.headlineSmall?.fontSize ??
+                              13),
                   controller: emailTextController,
                 )),
             const SizedBox(height: 20),
@@ -209,11 +247,29 @@ class ProfileScreen extends State<ProfileScreenWidget> {
                   style: TextStyle(
                       color: Colors.black,
                       fontSize:
-                      Theme.of(context).textTheme.headlineSmall?.fontSize ??
-                          13),
+                          Theme.of(context).textTheme.headlineSmall?.fontSize ??
+                              13),
                   controller: phoneNumberTextController,
                 )),
             const SizedBox(height: 20),
+            Container(
+                height: 50,
+                margin: const EdgeInsets.only(top: 40, left: 30, right: 30),
+                child: ElevatedButton(
+                    onPressed: () async {
+                      saveUserDetails();
+                    },
+                    child: Center(
+                        child: Text(
+                      "Save user data",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.fontSize ??
+                              13),
+                    ))))
           ])),
     );
   }
