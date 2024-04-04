@@ -69,7 +69,7 @@ class ProfileScreen extends State<ProfileScreenWidget> {
       headline = prefs.getString(prefsKeyHeadline) ?? "Software developer";
       email = prefs.getString(prefsKeyEmail) ?? "abc@gmail.com";
       phoneNumber = prefs.getString(prefsKeyPhoneNumber) ?? "060123456";
-      profileImagePath = prefs.getString(prefsKeyProfileImagePath) ?? null;
+      profileImagePath = prefs.getString(prefsKeyProfileImagePath);
 
       nameTextController.text = name;
       headlineTextController.text = headline;
