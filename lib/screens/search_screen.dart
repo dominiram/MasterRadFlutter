@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:master_rad_flutter/models/article_model.dart';
+import 'package:master_rad_flutter/repos/article_repository.dart';
 import 'package:master_rad_flutter/screens/screens.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/image_container.dart';
@@ -16,16 +17,9 @@ class SearchScreen extends StatelessWidget {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-          ),
-        ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            automaticallyImplyLeading: false),
         bottomNavigationBar: const BottomNavBar(index: 1),
         body: ListView(
           padding: const EdgeInsets.all(20.0),
@@ -48,8 +42,8 @@ class _CategoryNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Article> articles = <Article>[];
-    articles.addAll(Article.articles);
-    articles.addAll(Article.articles);
+    articles.addAll(ArticleRepository.articles);
+    articles.addAll(ArticleRepository.articles);
     return Column(
       children: [
         TabBar(
@@ -116,16 +110,11 @@ class _DiscoverNews extends StatelessWidget {
             hintText: 'Search',
             fillColor: Colors.grey.shade200,
             filled: true,
-            prefixIcon: const Icon(
-              Icons.search,
-              color: Colors.grey,
-            ),
-            suffixIcon: const RotatedBox(
-              quarterTurns: 1,
-              child: Icon(
-                Icons.tune,
-                color: Colors.grey,
-              ),
+            prefixIcon: IconButton(
+              icon: const Icon(Icons.search, color: Colors.grey),
+              onPressed: () {
+                //TODO: search!
+              },
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),

@@ -2,6 +2,8 @@ import 'package:master_rad_flutter/models/article_api_model.dart';
 import 'package:retrofit/http.dart';
 import 'package:dio/dio.dart';
 
+import '../models/article_model.dart';
+
 part 'api_service.g.dart';
 
 @RestApi(baseUrl: 'https://newsapi.org/v2/')

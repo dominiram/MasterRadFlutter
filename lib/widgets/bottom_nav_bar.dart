@@ -13,7 +13,7 @@ class BottomNavBar extends StatelessWidget {
       showUnselectedLabels: false,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
-      backgroundColor: Colors.indigo.withAlpha(20),
+      backgroundColor: Colors.indigo,
       items: [
         BottomNavigationBarItem(
             icon: IconButton(

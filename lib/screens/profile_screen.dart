@@ -115,16 +115,9 @@ class ProfileScreen extends State<ProfileScreenWidget> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.black,
-          ),
-        ),
-      ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          automaticallyImplyLeading: false),
       bottomNavigationBar: const BottomNavBar(index: 2),
       body: Container(
           alignment: Alignment.center,

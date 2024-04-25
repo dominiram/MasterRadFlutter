@@ -8,6 +8,7 @@ class ArticleScreen extends StatelessWidget {
   const ArticleScreen({super.key});
 
   static const routeName = '/article';
+
   @override
   Widget build(BuildContext context) {
     final article = ModalRoute.of(context)!.settings.arguments as Article;
@@ -17,10 +18,10 @@ class ArticleScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.white),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
+            iconTheme: const IconThemeData(color: Colors.white),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            automaticallyImplyLeading: false),
         extendBodyBehindAppBar: true,
         body: ListView(
           children: [
@@ -68,8 +69,8 @@ class _NewsBody extends StatelessWidget {
                   Text(
                     article.author,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Colors.white,
-                    ),
+                          color: Colors.white,
+                        ),
                   ),
                 ],
               ),
@@ -117,7 +118,7 @@ class _NewsBody extends StatelessWidget {
           Text(
             article.body,
             style:
-            Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.5),
+                Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.5),
           ),
           const SizedBox(height: 20),
           GridView.builder(
@@ -164,8 +165,8 @@ class _NewsHeadline extends StatelessWidget {
               Text(
                 article.category,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Colors.white,
-                ),
+                      color: Colors.white,
+                    ),
               ),
             ],
           ),
@@ -173,10 +174,10 @@ class _NewsHeadline extends StatelessWidget {
           Text(
             article.title,
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              height: 1.25,
-            ),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  height: 1.25,
+                ),
           ),
           const SizedBox(height: 10),
           Text(
