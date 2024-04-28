@@ -183,7 +183,15 @@ class _NewsOfTheDay extends StatelessWidget {
           TextButton(
             onPressed: () {},
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
-            child: Row(
+            child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    ArticleScreen.routeName,
+                    arguments: article,
+                  );
+              },
+                child: Row(
               children: [
                 Text(
                   'Learn More',
@@ -197,6 +205,7 @@ class _NewsOfTheDay extends StatelessWidget {
                   color: Colors.white,
                 ),
               ],
+            ),
             ),
           ),
         ],

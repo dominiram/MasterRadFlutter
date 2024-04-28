@@ -20,8 +20,7 @@ class ArticleScreen extends StatelessWidget {
         appBar: AppBar(
             iconTheme: const IconThemeData(color: Colors.white),
             backgroundColor: Colors.transparent,
-            elevation: 0,
-            automaticallyImplyLeading: false),
+            elevation: 0),
         extendBodyBehindAppBar: true,
         body: ListView(
           children: [
