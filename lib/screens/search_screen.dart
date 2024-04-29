@@ -23,7 +23,13 @@ class SearchScreen extends StatelessWidget {
         bottomNavigationBar: const BottomNavBar(index: 1),
         body: ListView(
           padding: const EdgeInsets.all(20.0),
-          children: [const _DiscoverNews(), _CategoryNews(tabs: tabs)],
+          children: [
+            DiscoverNews(
+              filterArticles: (searchText) =>
+                  { _CategoryNews.instance!.filterArticles(searchText) },
+            ),
+            CategoryNews(tabs: tabs)
+          ],
         ),
       ),
     );
@@ -32,24 +38,42 @@ class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 }
 
-class _CategoryNews extends StatelessWidget {
-  const _CategoryNews({
-    required this.tabs,
-  });
-
+class CategoryNews extends StatefulWidget {
   final List<String> tabs;
+
+  const CategoryNews({super.key, required this.tabs});
+
+  @override
+  State<CategoryNews> createState() => _CategoryNews();
+}
+
+class _CategoryNews extends State<CategoryNews> {
+
+  static _CategoryNews? instance;
+  List<Article> filteredArticles = [];
+
+  @override
+  void initState() {
+    super.initState();
+    instance = this;
+    filteredArticles.clear();
+    filteredArticles.addAll(ArticleRepository.articles);
+  }
+
+  void filterArticles(String searchText) {
+    setState(() {
+      filteredArticles = ArticleRepository().searchArticles(searchText.toLowerCase());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Article> articles = <Article>[];
-    articles.addAll(ArticleRepository.articles);
-    articles.addAll(ArticleRepository.articles);
     return Column(
       children: [
         TabBar(
           isScrollable: true,
           indicatorColor: Colors.black,
-          tabs: tabs
+          tabs: widget.tabs
               .map(
                 (tab) => Tab(
                   icon: Text(
@@ -65,13 +89,13 @@ class _CategoryNews extends StatelessWidget {
         SizedBox(
           height: 520,
           child: TabBarView(
-            children: tabs
+            children: widget.tabs
                 .map(
                   (tab) => ListView.builder(
                     shrinkWrap: true,
-                    itemCount: articles.length,
+                    itemCount: filteredArticles.length,
                     itemBuilder: ((context, index) {
-                      return _ArticleItem(article: articles[index]);
+                      return _ArticleItem(article: filteredArticles[index]);
                     }),
                   ),
                 )
@@ -83,8 +107,26 @@ class _CategoryNews extends StatelessWidget {
   }
 }
 
-class _DiscoverNews extends StatelessWidget {
-  const _DiscoverNews();
+class DiscoverNews extends StatefulWidget {
+
+  final Function(String) filterArticles;
+
+  const DiscoverNews({super.key, required this.filterArticles});
+
+  @override
+  State<DiscoverNews> createState() => _DiscoverNews();
+}
+
+class _DiscoverNews extends State<DiscoverNews> {
+  // TextEditingController searchController = TextEditingController();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   searchController.addListener(() {
+  //     widget.filterArticles(searchController.text.toLowerCase());
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -106,16 +148,14 @@ class _DiscoverNews extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         TextFormField(
+          onChanged: (s) {
+            widget.filterArticles(s);
+          },
           decoration: InputDecoration(
             hintText: 'Search',
             fillColor: Colors.grey.shade200,
             filled: true,
-            prefixIcon: IconButton(
-              icon: const Icon(Icons.search, color: Colors.grey),
-              onPressed: () {
-                //TODO: search!
-              },
-            ),
+            prefixIcon: const Icon(Icons.search, color: Colors.grey),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide.none,
